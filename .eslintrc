@@ -10,9 +10,10 @@
   "rules": {
     "semi": [2, "always"],
     "new-cap": 0,
-    "strict": 0,
+    "strict": 1,
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
+    "no-unused-vars": [2, {"args": "after-used", "argsIgnorePattern": "^_"}],
     "eol-last": 0,
     "quotes": [2, "single"],
     "react/jsx-boolean-value": 1,

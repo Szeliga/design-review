@@ -40,7 +40,9 @@ var common = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlwebpackPlugin({
-      title: 'Kanban app'
+      title: 'Design review',
+      template: 'index.html',
+      inject: 'body'
     })
   ]
 };
@@ -58,8 +60,17 @@ if(TARGET === 'start' || !TARGET) {
       loaders: [
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel'],
+          loader: 'react-hot',
           include: path.resolve(ROOT_PATH, 'app')
+        },
+        {
+          test: /\.jsx?$/,
+          loader: 'babel',
+          include: path.resolve(ROOT_PATH, 'app'),
+          query: {
+            cacheDirectory: true,
+            presets: ['es2015', 'react']
+          }
         }
       ]
     },
