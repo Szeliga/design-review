@@ -38,20 +38,20 @@ var common = {
     preLoaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['eslint'],
-        include: path.resolve(ROOT_PATH, 'app')
-      }
-    ],
-    loaders: [
-      {
-        test: /\.jsx?$/,
         loader: 'babel',
-        include: path.resolve(ROOT_PATH, 'app'),
+        include: APP_PATH,
         query: {
           cacheDirectory: true,
           presets: ['es2015', 'react', 'stage-1']
         }
       },
+      {
+        test: /\.jsx?$/,
+        loaders: ['eslint'],
+        include: APP_PATH
+      },
+    ],
+    loaders: [
       { test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.woff2$|\.ttf$|\.eot$|\.wav$|\.mp3$/, loader: 'file' }
     ]
   },
@@ -78,7 +78,7 @@ if(TARGET === 'start' || !TARGET) {
         {
           test: /\.css$/,
           loaders: ['style', 'css'],
-          include: path.resolve(ROOT_PATH, 'app')
+          include: APP_PATH
         },
         {
           test: /\.scss$/,
@@ -87,7 +87,7 @@ if(TARGET === 'start' || !TARGET) {
         {
           test: /\.jsx?$/,
           loader: 'react-hot',
-          include: path.resolve(ROOT_PATH, 'app')
+          include: APP_PATH
         },
       ]
     },
