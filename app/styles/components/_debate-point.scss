@@ -1,0 +1,28 @@
+.debate {
+  @include position(absolute);
+  @include user-select(none);
+  &__point {
+    @extend .pink, .z-depth-1, .circle;
+    @include size(20px 20px);
+    cursor: pointer;
+    border-radius: 50%;
+    display: inline-block;
+    &:hover {
+      @extend .lighten-1
+    };
+  };
+  &__box {
+    @extend .z-depth-1, .white;
+    @include size(500px auto);
+    @include transition(opacity .2s ease-in-out);
+    padding: 10px 20px;
+    display: inline-block;
+    margin: 0 10px;
+    vertical-align: top;
+    opacity: 0;
+
+    &--opened {
+      opacity: 1;
+    };
+  };
+}
