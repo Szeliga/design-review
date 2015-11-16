@@ -17,7 +17,10 @@ var common = {
   entry: APP_PATH,
   resolve: {
     alias: {
-      components: path.resolve(ROOT_PATH, 'app', 'components')
+      components: path.resolve(ROOT_PATH, 'app', 'components'),
+      utils: path.resolve(ROOT_PATH, 'app', 'utils'),
+      styles: path.resolve(ROOT_PATH, 'app', 'styles'),
+      app: path.resolve(ROOT_PATH, 'app')
     },
     extensions: ['', '.js', '.jsx', '.scss'],
   },
@@ -60,7 +63,12 @@ var common = {
       title: 'Design review',
       template: 'index.html',
       inject: 'body'
-    })
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "Hammer": "hammerjs/hammer"
+    }),
   ]
 };
 

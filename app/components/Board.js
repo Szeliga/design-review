@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import DebatePoint from 'components/DebatePoint';
+import {NEW_DEBATE_POINT_ID} from 'utils/defaults';
 
 const style = {
   boardContainer: {
@@ -29,18 +30,22 @@ export default class Board extends React.Component {
       x: clientX - left,
       y: clientY - top,
     });
-    this.props.onDebatePointClick(this.props.debatePoints.length);
+    this.props.onDebatePointClick(NEW_DEBATE_POINT_ID);
   }
 
   renderDebatePoints(items) {
-    return items.map((item, i) => {
+    return Object.keys(items).map((id) => {
+      const item = items[id];
+      const {messages} = item;
       const position = {x: item.x, y: item.y};
       return (
-        <DebatePoint key={`debate-point-${i}`}
-          index={i}
+        <DebatePoint key={`debate-point-${id}`}
+          id={id}
+          messages={messages}
           position={position}
           onDebatePointClick={this.props.onDebatePointClick}
-          opened={this.props.activeDebatePoint === i}
+          onAddDebateThread={this.props.onAddDebateThread}
+          opened={this.props.activeDebatePoint === id}
         />
       );
     });
@@ -63,8 +68,9 @@ export default class Board extends React.Component {
 
 Board.propTypes = {
   imgSrc: PropTypes.string.isRequired,
-  debatePoints: PropTypes.array.isRequired,
-  activeDebatePoint: PropTypes.number.isRequired,
+  debatePoints: PropTypes.object.isRequired,
+  activeDebatePoint: PropTypes.string,
   onAddDebatePointClick: PropTypes.func.isRequired,
   onDebatePointClick: PropTypes.func.isRequired,
+  onAddDebateThread: PropTypes.func.isRequired,
 };

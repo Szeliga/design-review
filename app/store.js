@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import todoApp from './reducers';
+import todoApp from 'app/reducers';
 const store = createStore(todoApp);
 
 export default store;

@@ -1,7 +1,8 @@
 import React, {PropTypes} from 'react';
-import Board from 'components/Board';
-import {addDebatePoint, toggleDebateBox} from '../actions';
 import {connect} from 'react-redux';
+
+import Board from 'components/Board';
+import {addDebatePoint, toggleDebateBox, addDebateThread} from 'app/actions';
 
 
 class App extends React.Component {
@@ -18,6 +19,9 @@ class App extends React.Component {
         onDebatePointClick={index => {
           dispatch(toggleDebateBox(index));
         }}
+        onAddDebateThread={(message) => {
+          dispatch(addDebateThread(message));
+        }}
       />
     );
   }
@@ -30,8 +34,8 @@ function select(state) {
 App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   imgUrl: PropTypes.string.isRequired,
-  debatePoints: PropTypes.array.isRequired,
-  activeDebatePoint: PropTypes.number.isRequired,
+  debatePoints: PropTypes.object.isRequired,
+  activeDebatePoint: PropTypes.string,
 };
 
 export default connect(select)(App);

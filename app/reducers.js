@@ -1,25 +1,46 @@
-// TODO: Add id to debate points so we can track clicks on them
-import {ADD_DEBATE_POINT, TOGGLE_DEBATE_BOX} from './actions';
+import uuid from 'node-uuid';
+
+import {ADD_DEBATE_POINT, TOGGLE_DEBATE_BOX, ADD_DEBATE_THREAD} from 'app/actions';
+import {NEW_DEBATE_POINT_ID} from 'utils/defaults';
 
 const initialState = {
   imgUrl: 'https://mir-s3-cdn-cf.behance.net/project_modules/hd/b9f00d29023019.55de188969ed7.jpg',
-  debatePoints: [],
-  activeDebatePoint: -1,
+  debatePoints: {},
+  activeDebatePoint: null,
 };
 
 export default function designReviewApp(state = initialState, action) {
   switch (action.type) {
   case ADD_DEBATE_POINT:
-    const points = [...state.debatePoints, {
-      x: action.x,
-      y: action.y,
-      opened: action.opened,
-    }];
-    return Object.assign({}, state, {debatePoints: points});
-  //
+    const debatePoints = Object.assign({}, state.debatePoints, {
+      [NEW_DEBATE_POINT_ID]: {
+        x: action.x,
+        y: action.y,
+        messages: [],
+      },
+    });
+    return Object.assign({}, state, {debatePoints});
+
   case TOGGLE_DEBATE_BOX:
-    const index = state.activeDebatePoint === action.index ? -1 : action.index;
-    return Object.assign({}, state, {activeDebatePoint: index});
+    if (action.id === NEW_DEBATE_POINT_ID && state.activeDebatePoint === NEW_DEBATE_POINT_ID) {
+      return state;
+    }
+
+    const id = action.id === state.activeDebatePoint ? null : action.id;
+    return Object.assign({}, state, {activeDebatePoint: id});
+
+  case ADD_DEBATE_THREAD:
+    const newId = uuid.v4();
+    const newDebatePoint = Object.assign({}, state.debatePoints[NEW_DEBATE_POINT_ID]);
+    newDebatePoint.messages = [action.message];
+    const items = Object.assign({}, state.debatePoints, {
+      [newId]: newDebatePoint,
+    });
+    delete(items[NEW_DEBATE_POINT_ID]);
+    return Object.assign({}, state,
+      {debatePoints: items},
+      {activeDebatePoint: newId}
+    );
 
   default:
     return state;
